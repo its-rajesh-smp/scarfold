@@ -1,0 +1,46 @@
+services:
+  api:
+    container_name: scarfold-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./api/.env.dev
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000" # HOST_PORT : CONTAINER_PORT
+
+  mongo:
+    container_name: scarfold-mongo
+    image: mongo:8.2 # 8.0 / 8.3 don't start on Docker Desktop's current kernel
+    entrypoint: ["/entrypoint.sh"]
+    command: ["mongod"]
+    env_file:
+      - ./api/.env.dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./api/.data/mongo:/data/db
+      - ./api/docker/mongo/entrypoint.sh:/entrypoint.sh:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mongo-express:
+    container_name: scarfold-mongo-express
+    image: mongo-express:1.0.2
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/?authSource=admin
+      ME_CONFIG_BASICAUTH: "false"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
