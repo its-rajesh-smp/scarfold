@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
-import { AuthController } from './auth/auth.controller.js';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Env, envSchema } from './config/env.js';

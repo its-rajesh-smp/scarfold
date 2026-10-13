@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@theme {
+  /* Neutrals: cool, slate-tinted */
+  --color-canvas: #f7f9fc;
+  --color-surface: #ffffff;
+  --color-sunken: #f1f4f9;
+  --color-ink: #0b1220;
+  --color-ink-soft: #1e293b;
+  --color-muted: #4b5567;
+  --color-subtle: #9aa3b2;
+  --color-line: #e3e8ef;
+  --color-line-strong: #cfd6e0;
+
+  /* The one accent: blueprint blue */
+  --color-accent: #bcd4ff;
+  --color-accent-deep: #9dbfff;
+  --color-accent-edge: #6b9bff;
+
+  /* Status */
+  --color-ember: #ea7a1f;
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+
+  /* Blueprint product stage */
+  --color-stage: #0e1726;
+  --color-stage-line: #1d2a40;
+
+  /* Pastel tints: card fill, card border, title colour */
+  --color-violet-tint: #f6f1ff;
+  --color-violet-edge: #e6dbff;
+  --color-violet-ink: #7c3aed;
+  --color-sky-tint: #eef6fd;
+  --color-sky-edge: #d4e8f8;
+  --color-sky-ink: #0284c7;
+  --color-peach-tint: #fdf4e9;
+  --color-peach-edge: #f6e0c6;
+  --color-peach-ink: #c2410c;
+  --color-mint-tint: #effbf1;
+  --color-mint-edge: #cdeed4;
+  --color-mint-ink: #15803d;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgb(11 18 32 / 0.04), 0 12px 32px -20px rgb(11 18 32 / 0.2);
+  --shadow-float: 0 8px 30px -12px rgb(11 18 32 / 0.2);
+  --shadow-window: 0 1px 0 rgb(11 18 32 / 0.04), 0 30px 70px -30px rgb(2 6 23 / 0.7);
+  --shadow-key: 0 2px 0 var(--color-line-strong);
+
+  /* Motion */
+  --ease-calm: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --animate-rise: rise 700ms var(--ease-calm) both;
+  --animate-rise-late: rise 700ms var(--ease-calm) 150ms both;
+  --animate-blink: blink 1s steps(1) infinite;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+/* Accent highlighter stroke across the lower half of key words. */
+@utility marker {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 52%,
+    var(--color-accent) 52%,
+    var(--color-accent) 90%,
+    transparent 90%
+  );
+  padding-inline: 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Blueprint grid for the product stage: fine lines plus a major line every fifth. */
+@utility stage-grid {
+  background-image:
+    linear-gradient(to right, rgb(147 187 255 / 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(147 187 255 / 0.1) 1px, transparent 1px),
+    linear-gradient(to right, rgb(147 187 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(147 187 255 / 0.04) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+/* Sections fade up as they scroll in; content stays visible without support. */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    @apply bg-accent text-ink;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
