@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Env, envSchema } from './config/env.js';
 import { AuthModule } from './auth/Auth.module.js';
 import { MongoExceptionFilter } from './common/filters/mongo-exception.filter.js';
+import { ProjectModule } from './project/project.module.js';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MongoExceptionFilter } from './common/filters/mongo-exception.filter.js
     }),
 
     AuthModule,
+    ProjectModule,
   ],
   controllers: [],
   providers: [
