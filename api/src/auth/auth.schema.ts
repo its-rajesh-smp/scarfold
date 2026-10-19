@@ -17,3 +17,11 @@ export class Auth {
 }
 
 export const AuthSchema = SchemaFactory.createForClass(Auth);
+
+// Never send the password hash in API responses
+AuthSchema.set('toJSON', {
+  transform: (_doc, ret: Partial<Auth>) => {
+    delete ret.password;
+    return ret;
+  },
+});

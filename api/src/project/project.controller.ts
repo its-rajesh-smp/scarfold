@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
+  Param,
   Patch,
   Post,
   Req,
@@ -21,6 +23,18 @@ export class ProjectController {
     const userId = req.user.id;
     const projects = await this.projectService.findAllByUser(userId);
     return { message: 'Get projects successful', data: projects };
+  }
+
+  @Get('/:id')
+  async getProject(@Param('id') projectId: string, @Req() req: any) {
+    const userId = req.user.id;
+    const project = await this.projectService.findOneByUser(projectId, userId);
+
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
+    return { message: 'Get project successful', data: project };
   }
 
   @Post('/')

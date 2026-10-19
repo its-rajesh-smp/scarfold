@@ -7,6 +7,7 @@ import { Env, envSchema } from './config/env.js';
 import { AuthModule } from './auth/Auth.module.js';
 import { MongoExceptionFilter } from './common/filters/mongo-exception.filter.js';
 import { ProjectModule } from './project/project.module.js';
+import { FieldModule } from './field/field.module.js';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ProjectModule } from './project/project.module.js';
 
     AuthModule,
     ProjectModule,
+    FieldModule,
   ],
   controllers: [],
   providers: [

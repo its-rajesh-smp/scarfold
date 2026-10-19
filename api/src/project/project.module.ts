@@ -12,5 +12,6 @@ import { ProjectService } from './project.service.js';
   ],
   controllers: [ProjectController],
   providers: [ProjectService],
+  exports: [ProjectService],
 })
 export class ProjectModule {}

@@ -13,6 +13,10 @@ export class ProjectService {
     return await this.projectModel.find({ userId });
   }
 
+  async findOneByUser(projectId: string, userId: string) {
+    return await this.projectModel.findOne({ _id: projectId, userId });
+  }
+
   async create(userId: string, data: any) {
     return await this.projectModel.create({ userId, ...data });
   }
